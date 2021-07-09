@@ -14,5 +14,4 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        token: ${{ secrets.SUBMODULES_SYNC }}
-        submodules: true
+        fetch-depth: 0
