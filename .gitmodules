@@ -1,0 +1,6 @@
+[submodule "signature-verification-python"]
+	path = signature-verification-python
+	url = https://github.com/SettleAPI/signature-verification-python.git
+[submodule "signature-verification-node"]
+	path = signature-verification-node
+	url = https://github.com/SettleAPI/signature-verification-node.git
