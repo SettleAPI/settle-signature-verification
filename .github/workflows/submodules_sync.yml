@@ -19,8 +19,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: master
-        # token: ${{ secrets.SUBMODULES_SYNC }}
+        repository: SettleAPI/settle-signature-verification
+        token: ${{ secrets.SUBMODULES_SYNC }}
         submodules: true
 
     # Update references
@@ -30,12 +30,8 @@ jobs:
 
     - name: Commit update
       run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "generated"
-          git push
-        # git config --global user.name 'Git bot'
-        # git config --global user.email 'bot@noreply.github.com'
-        # git remote set-url origin https://x-access-token:${{ secrets.SUBMODULES_SYNC }}@github.com/${{ github.repository }}
-        # git commit -am "Auto updated submodule references" && git push || echo "No changes to commit"
+        git config --file .gitmodules --get-regexp url | while read url; do
+          git config --file=.gitmodules $(echo "$url" | sed -E "s/git@github.com:|https:\/\/github.com\//https:\/\/${{ secrets.CI_PAT }}:${{ secrets.CI_PAT }}@github.com\//")
+        done
+        git submodule sync
+        git submodule update --init --recursive
